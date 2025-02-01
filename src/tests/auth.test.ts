@@ -31,13 +31,17 @@ describe("Auth API Tests (Using Transactions)", () => {
   });
 
   it("should return 409 if email or username already exists", async () => {
-    await supertest(app.server)
-      .post("/register")
-      .send({ email: "duplicate@example.com", username: "duplicateuser", password: "securePass123" });
+    await supertest(app.server).post("/register").send({
+      email: "duplicate@example.com",
+      username: "duplicateuser",
+      password: "securePass123",
+    });
 
-    const response = await supertest(app.server)
-      .post("/register")
-      .send({ email: "duplicate@example.com", username: "duplicateuser", password: "securePass123" });
+    const response = await supertest(app.server).post("/register").send({
+      email: "duplicate@example.com",
+      username: "duplicateuser",
+      password: "securePass123",
+    });
 
     expect(response.status).toBe(409);
     expect(response.body).toEqual({ error: "Email or Username already exists" });

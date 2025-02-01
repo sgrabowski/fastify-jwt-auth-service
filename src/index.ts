@@ -4,7 +4,7 @@ import authRoutes from "./routes/auth";
 import defaultRoutes from "./routes/default";
 
 const fastify = Fastify({
-   logger: true,
+  logger: true,
 });
 
 // Register Plugins

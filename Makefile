@@ -1,48 +1,62 @@
-.PHONY: help up down sh build migrate migrate-deploy tests
+# Executables
+DOCKER_COMP = docker compose
+AUTH_CONT   = $(DOCKER_COMP) exec auth
 
-# Default target when no arguments are provided: display help.
+# Misc
 .DEFAULT_GOAL := help
+.PHONY: help up down sh build migrate migrate-deploy tests lint lint-fix format qa
 
-help:
-	@echo "Usage: make [target]"
-	@echo ""
-	@echo "Available targets:"
-	@echo "  help            - Show this help message"
-	@echo "  up              - Start the containers"
-	@echo "  down            - Stop the containers"
-	@echo "  sh              - Open a shell inside the auth container"
-	@echo "  build           - Rebuild the containers without cache"
-	@echo "  migrate         - Create and run Prisma migrations. Supply a name with 'name=YOUR_MIGRATION_NAME' if needed."
-	@echo "                    Example: make migrate name=init"
-	@echo "  migrate-deploy  - Apply only pending migrations"
-	@echo "                    Example: make migrate-deploy"
-	@echo "  tests           - Run Jest tests"
+## —— 🎵 🐳 Makefile 🐳 🎵 ————————————————————————————————————
+help: ## Outputs this help screen
+	@grep -E '(^[a-zA-Z0-9\./_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
-up:
-	docker compose up -d
+## —— Docker 🐳 ————————————————————————————————————————————————————————————————
+up: ## Start the docker containers in detached mode
+	@$(DOCKER_COMP) up -d
 
-down:
-	docker compose down
+down: ## Stop and remove the containers
+	@$(DOCKER_COMP) down
 
-sh:
-	docker compose exec auth sh
+sh: ## Open a shell inside the auth container
+	@$(AUTH_CONT) sh
 
-build:
-	docker compose build --no-cache
+build: ## Rebuild containers without cache
+	@$(DOCKER_COMP) build --no-cache
 
-migrate:
+## —— Database 🛢️ ———————————————————————————————————————————————————————————
+migrate: ## Run database migrations (use `name=YOUR_MIGRATION_NAME` to specify a name)
 	@if [ -z "$(name)" ]; then \
 	  echo "Running migrations without a new migration name..."; \
-	  docker compose run auth npx prisma migrate dev; \
+	  $(DOCKER_COMP) run auth npx prisma migrate dev; \
 	else \
 	  echo "Running migration with name: $(name)"; \
-	  docker compose run auth npx prisma migrate dev --name $(name); \
+	  $(DOCKER_COMP) run auth npx prisma migrate dev --name $(name); \
 	fi
 
-migrate-deploy:
+migrate-deploy: ## Apply all pending database migrations
 	@echo "Applying pending migrations..."
-	docker compose run auth npx prisma migrate deploy
+	@$(DOCKER_COMP) run auth npx prisma migrate deploy
 
-tests:
+## —— Testing & Quality Assurance ✅ —————————————————————————————————————————————————
+tests: ## Run Jest tests
 	@echo "Running Jest tests..."
-	docker compose run auth npm test
+	@$(DOCKER_COMP) run auth npm test
+
+lint: ## Run ESLint to check for linting issues
+	@echo "Running ESLint..."
+	@npm run lint
+
+lint-fix: ## Automatically fix linting issues
+	@echo "Fixing ESLint issues..."
+	@npm run lint:fix
+
+format: ## Format code using Prettier
+	@echo "Running Prettier..."
+	@npm run format
+
+qa: ## Run full code quality and testing suite
+	@echo "Running QA checks (migrations, linting, formatting, tests)..."
+	@$(MAKE) migrate-deploy
+	@$(MAKE) lint-fix
+	@$(MAKE) format
+	@$(MAKE) tests

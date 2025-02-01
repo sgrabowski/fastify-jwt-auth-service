@@ -6,18 +6,18 @@ const registerSchema = {
     type: "object",
     required: ["email", "username", "password"],
     properties: {
-      email: { 
-        type: "string", 
-        format: "email", 
+      email: {
+        type: "string",
+        format: "email",
       },
-      username: { 
-        type: "string", 
-        minLength: 3, 
+      username: {
+        type: "string",
+        minLength: 3,
       },
-      password: { 
-        type: "string", 
-        minLength: 8, 
-      }
+      password: {
+        type: "string",
+        minLength: 8,
+      },
     },
     additionalProperties: false,
   },
@@ -28,7 +28,11 @@ export default async function authRoutes(fastify: FastifyInstance) {
     "/register",
     { schema: registerSchema },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const { email, username, password } = request.body as { email: string; username: string; password: string };
+      const { email, username, password } = request.body as {
+        email: string;
+        username: string;
+        password: string;
+      };
 
       try {
         const existingUser = await fastify.prisma.user.findFirst({
@@ -50,6 +54,6 @@ export default async function authRoutes(fastify: FastifyInstance) {
         fastify.log.error(error);
         return reply.status(500).send({ error: "Internal Server Error" });
       }
-    }
+    },
   );
 }
