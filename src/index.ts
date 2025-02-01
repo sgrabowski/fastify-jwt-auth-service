@@ -3,14 +3,16 @@ import prismaPlugin from "./plugins/prisma";
 import authRoutes from "./routes/auth";
 import defaultRoutes from "./routes/default";
 
-const fastify = Fastify({ logger: true });
+const fastify = Fastify({
+   logger: true,
+});
 
 // Register Plugins
 fastify.register(prismaPlugin);
 
 // Register Routes
-fastify.register(defaultRoutes); // Default "/" route
-fastify.register(authRoutes);    // Auth routes
+fastify.register(defaultRoutes);
+fastify.register(authRoutes);
 
 const start = async () => {
   try {

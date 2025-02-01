@@ -1,3 +1,6 @@
+# Local .env file
+.env
+
 # Node.js dependencies
 node_modules/
 npm-debug.log*
@@ -6,11 +9,6 @@ yarn-error.log
 # Prisma generated files
 prisma/migrations/
 prisma/.env
-.env
-.env.local
-.env.development
-.env.production
-.env.test
 
 # TypeScript build files
 dist/
