@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  auth:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules  # This line ensures the container’s node_modules are preserved
+    environment:
+      - NODE_ENV=development
