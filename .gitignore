@@ -1,0 +1,34 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# Prisma generated files
+prisma/migrations/
+prisma/.env
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# TypeScript build files
+dist/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor & OS files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Docker volumes & cache
+pgdata/
+node_modules/

@@ -18,7 +18,7 @@ help:
 	@echo "                    Example: make migrate-deploy"
 
 up:
-	docker compose up -d
+	docker compose up -d && docker compose exec auth npm install
 
 down:
 	docker compose down

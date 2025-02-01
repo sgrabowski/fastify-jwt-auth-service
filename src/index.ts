@@ -1,22 +1,25 @@
-import Fastify from 'fastify';
+import Fastify from "fastify";
+import prismaPlugin from "./plugins/prisma";
+import authRoutes from "./routes/auth";
+import defaultRoutes from "./routes/default";
 
 const fastify = Fastify({ logger: true });
 
-// Define a simple GET / endpoint that returns "Hello World"
-fastify.get('/', async (request, reply) => {
-  return { message: 'Hello World' };
-});
+// Register Plugins
+fastify.register(prismaPlugin);
+
+// Register Routes
+fastify.register(defaultRoutes); // Default "/" route
+fastify.register(authRoutes);    // Auth routes
 
 const start = async () => {
   try {
-    // Listen on 0.0.0.0 so that the container is reachable from the host
-    await fastify.listen({ port: 3000, host: '0.0.0.0' });
-    fastify.log.info(`Server running on http://localhost:3000`);
+    await fastify.listen({ port: 3000, host: "0.0.0.0" });
+    fastify.log.info("Server running on http://localhost:3000");
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
   }
-}
+};
 
 start();
-
