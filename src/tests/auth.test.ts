@@ -64,4 +64,31 @@ describe("Auth API Tests (Using Transactions)", () => {
     expect(response.status).toBe(400);
     expect(response.body.message).toContain("body/password must NOT have fewer than 8 characters");
   });
+
+  it("should return 400 if email is missing", async () => {
+    const response = await supertest(app.server)
+      .post("/register")
+      .send({ username: "testuser", password: "securePass123" });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toContain("body must have required property 'email'");
+  });
+
+  it("should return 400 if username is missing", async () => {
+    const response = await supertest(app.server)
+      .post("/register")
+      .send({ email: "test@example.com", password: "securePass123" });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toContain("body must have required property 'username'");
+  });
+
+  it("should return 400 if password is missing", async () => {
+    const response = await supertest(app.server)
+      .post("/register")
+      .send({ email: "test@example.com", username: "testuser" });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toContain("body must have required property 'password'");
+  });
 });
