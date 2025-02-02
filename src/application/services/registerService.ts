@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import app from "../app"; // Import Fastify instance to access Prisma
+import app from "../../app"; // Import Fastify instance to access Prisma
 
 export default {
   async register({

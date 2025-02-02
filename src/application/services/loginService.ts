@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import app from "../app";
+import app from "../../app";
 
 export default {
   async login({ email, password }: { email: string; password: string }) {

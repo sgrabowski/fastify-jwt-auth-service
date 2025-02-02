@@ -1,8 +1,8 @@
 import Fastify from "fastify";
-import prismaPlugin from "./plugins/prisma";
-import jwtPlugin from "./plugins/jwt";
-import authRoutes from "./routes/auth";
-import defaultRoutes from "./routes/default";
+import prismaPlugin from "./infrastructure/plugins/prisma";
+import jwtPlugin from "./infrastructure/plugins/jwt";
+import authRoutes from "./infrastructure/routes/auth";
+import defaultRoutes from "./infrastructure/routes/default";
 import pino from "pino";
 
 const envLogging: Record<string, any> = {
@@ -13,7 +13,7 @@ const envLogging: Record<string, any> = {
   production: true,
   test: {
     level: "debug",
-    stream: pino.destination({ dest: "/var/log/test.log", sync: true }),
+    stream: pino.destination({ dest: "/var/log/test.log" }),
   },
 };
 

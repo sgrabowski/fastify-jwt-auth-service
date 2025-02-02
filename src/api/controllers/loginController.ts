@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import loginService from "../services/loginService";
-import { LoginRequestBody } from "../schemas/loginSchema";
+import loginService from "../../application/services/loginService";
+import { LoginRequestBody } from "../../infrastructure/schemas/loginSchema";
 
 export default {
   async login(request: FastifyRequest<{ Body: LoginRequestBody }>, reply: FastifyReply) {

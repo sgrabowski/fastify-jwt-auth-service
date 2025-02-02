@@ -1,15 +1,8 @@
-import Fastify from "fastify";
 import supertest from "supertest";
-import defaultRoutes from "../routes/default";
-import prismaPlugin from "../plugins/prisma";
+import app from "../app";
 
 describe("Health Check API Tests", () => {
-  let app: any;
-
   beforeAll(async () => {
-    app = Fastify();
-    await app.register(prismaPlugin);
-    await app.register(defaultRoutes);
     await app.ready();
   });
 

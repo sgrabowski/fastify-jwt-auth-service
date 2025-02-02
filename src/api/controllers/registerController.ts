@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import registerService from "../services/registerService";
-import { RegisterRequestBody } from "../schemas/registerSchema";
+import registerService from "../../application/services/registerService";
+import { RegisterRequestBody } from "../../infrastructure/schemas/registerSchema";
 
 export default {
   async register(request: FastifyRequest<{ Body: RegisterRequestBody }>, reply: FastifyReply) {

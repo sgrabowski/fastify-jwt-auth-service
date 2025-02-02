@@ -7,8 +7,8 @@ import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 export default fp(async function (fastify: FastifyInstance) {
   fastify.register(fastifyJwt, {
     secret: {
-      private: fs.readFileSync(path.join(__dirname, "../../keys/private.pem")),
-      public: fs.readFileSync(path.join(__dirname, "../../keys/public.pem")),
+      private: fs.readFileSync(path.join(__dirname, "../../../keys/private.pem")),
+      public: fs.readFileSync(path.join(__dirname, "../../../keys/public.pem")),
     },
     sign: {
       algorithm: "RS256",
