@@ -12,7 +12,7 @@
     "start": "node dist/server.js",
     "prisma": "prisma",
     "test:prepare-db": "psql $DATABASE_URL_FOR_SETUP -tc \"SELECT 1 FROM pg_database WHERE datname = 'authdb_test'\" | grep -q 1 || psql $DATABASE_URL_FOR_SETUP -c 'CREATE DATABASE authdb_test;'",
-    "test": "env $(cat .env.test | xargs) npm run test:prepare-db && env $(cat .env.test | xargs) npx prisma migrate deploy && NODE_ENV=test env $(cat .env.test | xargs) jest"
+    "test": "env $(cat .env.test | xargs) npm run test:prepare-db && env $(cat .env.test | xargs) npx prisma migrate deploy && env $(cat .env.test | xargs) jest"
   },
   "dependencies": {
     "@fastify/jwt": "^9.0.3",

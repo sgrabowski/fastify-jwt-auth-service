@@ -13,7 +13,7 @@ const envLogging: Record<string, any> = {
   production: true,
   test: {
     level: "debug",
-    stream: pino.destination({ dest: "/var/log/test.log" }),
+    stream: pino.destination("/var/log/test.log"),
   },
 };
 
