@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import app from "../../app";
-import { randomUUID } from "crypto";
+import tokenService from "./tokenService";
 
 export default {
   async login({ email, password }: { email: string; password: string }) {
@@ -14,11 +14,8 @@ export default {
 
     app.log.debug("Creating access and refresh tokens");
 
-    const accessToken = app.jwt.sign({ jti: randomUUID(), email: user.email });
-    const refreshToken = app.jwt.sign(
-      { jti: randomUUID() },
-      { expiresIn: process.env.REFRESH_TOKEN_EXPIRATION || "7d" },
-    );
+    const accessToken = tokenService.generateAccessToken(user.email);
+    const refreshToken = tokenService.generateRefreshToken();
 
     app.log.debug("Saving the refresh token");
 

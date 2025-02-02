@@ -1,5 +1,5 @@
 import app from "../../app";
-import { randomUUID } from "crypto";
+import tokenService from "./tokenService";
 
 export default {
   async refreshToken(refreshToken: string) {
@@ -24,18 +24,8 @@ export default {
 
     await app.prisma.refreshToken.delete({ where: { token: refreshToken } });
 
-    const newAccessToken = app.jwt.sign(
-      {
-        email: user.email,
-        jti: randomUUID(),
-      },
-      { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION || "5m" },
-    );
-
-    const newRefreshToken = app.jwt.sign(
-      { jti: randomUUID() },
-      { expiresIn: process.env.REFRESH_TOKEN_EXPIRATION || "7d" },
-    );
+    const newAccessToken = tokenService.generateAccessToken(user.email);
+    const newRefreshToken = tokenService.generateRefreshToken();
 
     await app.prisma.refreshToken.create({
       data: {
