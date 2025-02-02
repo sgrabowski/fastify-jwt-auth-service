@@ -1,15 +1,8 @@
-import Fastify from "fastify";
 import supertest from "supertest";
-import authRoutes from "../routes/auth";
-import prismaPlugin from "../plugins/prisma";
+import app from "../app";
 
-describe("Auth API Tests (Using Transactions)", () => {
-  let app: any;
-
+describe("Registration (Using Transactions)", () => {
   beforeAll(async () => {
-    app = Fastify();
-    await app.register(prismaPlugin);
-    await app.register(authRoutes);
     await app.ready();
 
     // Begin a database transaction

@@ -3,25 +3,27 @@
   "version": "0.0.1",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "npx ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev": "npx ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' --fix",
     "format": "prettier --write 'src/**/*.ts'",
     "precommit": "lint-staged",
-    "start": "node dist/index.js",
+    "start": "node dist/server.js",
     "prisma": "prisma",
     "test:prepare-db": "psql $DATABASE_URL_FOR_SETUP -tc \"SELECT 1 FROM pg_database WHERE datname = 'authdb_test'\" | grep -q 1 || psql $DATABASE_URL_FOR_SETUP -c 'CREATE DATABASE authdb_test;'",
-    "test": "env $(cat .env.test | xargs) npm run test:prepare-db && env $(cat .env.test | xargs) npx prisma migrate deploy && env $(cat .env.test | xargs) jest"
+    "test": "env $(cat .env.test | xargs) npm run test:prepare-db && env $(cat .env.test | xargs) npx prisma migrate deploy && NODE_ENV=test env $(cat .env.test | xargs) jest"
   },
   "dependencies": {
+    "@fastify/jwt": "^9.0.3",
     "@fastify/sensible": "^6.0.3",
     "@prisma/client": "^6.3.0",
     "ajv-errors": "^1.0.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.7",
     "fastify": "^5.2.1",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "pino": "^9.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
@@ -43,7 +45,8 @@
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "pino-pretty": "^13.0.0"
   },
   "lint-staged": {
     "*.ts": [

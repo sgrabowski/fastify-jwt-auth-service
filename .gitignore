@@ -30,3 +30,6 @@ yarn-error.log*
 # Docker volumes & cache
 pgdata/
 node_modules/
+
+# JWT keys
+keys/

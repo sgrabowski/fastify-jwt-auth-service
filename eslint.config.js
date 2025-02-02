@@ -24,6 +24,7 @@ module.exports = [
       jest: jestPlugin
     },
     rules: {
+      "no-unused-vars": "off",
       semi: ["error", "always"], // Enforce semicolons
       quotes: ["error", "double"], // Enforce double quotes
       indent: ["error", 2], // Enforce indentation with 2 spaces
